@@ -1,53 +1,116 @@
-## Capasitor
+# DRIFT//THAT
+
+Приложение для тусовки автолюбителей — смотри в реальном времени где собираются люди, делись своей позицией и общайся в общем чате.
+
+Построено на Nuxt 3 + Capacitor для Android, карта на Яндекс Картах.
+
+---
+
+## Возможности
+
+- **Живая карта** — позиции других пользователей обновляются каждые 5 секунд на тёмной Яндекс Карте
+- **Тогл шаринга геопозиции** — включай и отключай в любой момент; после отключения твоя метка исчезает с карты
+- **Общий чат** — чат на WebSocket с поддержкой изображений (камера или галерея)
+- **Фоновая геолокация** — работает в фоне на Android через Capacitor-плагин, в браузере использует Geolocation API
+- **Счётчик онлайна** — видно сколько человек сейчас на карте
+- **Авторизация по устройству** — никаких паролей, идентификатор устройства + отображаемое имя
+
+---
+
+## Стек технологий
+
+| Слой | Технология |
+|---|---|
+| Фреймворк | Nuxt 3 (Vue 3 + TypeScript) |
+| UI | Ionic Framework (`@nuxtjs/ionic`) |
+| Мобильная сборка | Capacitor 6 (Android) |
+| Карта | Яндекс Карты v3 (`vue-yandex-maps`) |
+| Геолокация | `@capacitor-community/background-geolocation` |
+| Камера | `@capacitor/camera` |
+| Чат в реальном времени | WebSocket (`wss://api.drift-that.ru/chat`) |
+| Стейт / хранилище | VueUse (`createSharedComposable`, `useLocalStorage`) |
+| Линтер | ESLint + `@antfu/eslint-config` |
+| Пакетный менеджер | Yarn 4 |
+
+---
+
+## Структура проекта
+
 ```
-Шобы запустить на мобилке йопта
-yarn generate
-npx cap sync
-npx cap run android
-
-npx cap open android
+├── pages/
+│   ├── index.vue       # Экран карты с тоглом геопозиции
+│   ├── chat.vue        # Общий чат
+│   ├── settings.vue    # Настройки пользователя
+│   └── register.vue    # Экран регистрации при первом запуске
+├── components/
+│   ├── map.vue         # Яндекс Карта + маркеры пользователей
+│   ├── message-items.vue
+│   ├── users-modal.vue
+│   ├── nav-menu.vue
+│   └── logo.vue
+├── composables/
+│   ├── useLocation.ts  # Отправка своей позиции, получение позиций других
+│   ├── useLocate.ts    # Общий стейт мобильной геолокации
+│   ├── useChat.ts      # WebSocket чат + сжатие изображений
+│   ├── useAuth.ts      # Сессия пользователя в localStorage
+│   ├── useYaMap.ts     # Хелперы Яндекс Карты, режим слежения
+│   ├── useMenu.ts      # Глобальный UI-стейт (счётчик онлайна, флаги)
+│   └── useNotify.ts    # Уведомления о новых сообщениях
+└── server/             # Конфиг Nuxt-сервера
 ```
-## ИЛИ
-```
-yarn android
-```
 
-# Nuxt Docs
+---
 
-[Nuxt documentation](https://nuxt.com/docs/getting-started/introduction)
+## Запуск
 
-## Setup
-
-Make sure to install dependencies:
+Установить зависимости:
 
 ```bash
-# yarn
 yarn
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Запустить dev-сервер на `http://localhost:3000`:
 
 ```bash
-# yarn
 yarn dev
 ```
 
-## Production
-
-Build the application for production:
+Собрать для продакшна:
 
 ```bash
-# yarn
 yarn build
 ```
 
-Locally preview production build:
+Превью продакшн-сборки:
 
 ```bash
-# yarn
 yarn preview
 ```
 
-[Deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+---
+
+## Android
+
+Синхронизировать и запустить на подключённом Android-устройстве:
+
+```bash
+yarn android
+# аналогично:
+yarn generate && npx cap sync && npx cap run android
+```
+
+Открыть в Android Studio:
+
+```bash
+npx cap open android
+```
+
+---
+
+## Как это работает
+
+1. При первом запуске пользователь вводит имя — уникальным идентификатором служит ID устройства.
+2. Экран карты каждые 5 секунд запрашивает `GET /locations` и рисует цветные маркеры для каждого активного пользователя.
+3. Когда шаринг включён, на том же интервале отправляется `POST /location` с текущими координатами.
+4. Чат подключается к `wss://api.drift-that.ru/chat` по WebSocket. Изображения перед отправкой сжимаются на клиенте через Canvas и передаются в base64.
+5. Если новое сообщение пришло пока пользователь на экране карты — показывается краткое уведомление.
