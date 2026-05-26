@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DRIFT//THAT</string>
+    <string name="title_activity_main">DRIFT//THAT</string>
+    <string name="package_name">com.driftthat.app</string>
+    <string name="custom_url_scheme">com.driftthat.app</string>
+</resources>

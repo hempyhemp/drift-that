@@ -1,0 +1,8 @@
+{
+  "name": "nuxt-app",
+  "mode": "md",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

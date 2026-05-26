@@ -1,0 +1,62 @@
+@use "utilities";
+@use "variables";
+
+ion-button {
+  --color: $light;
+}
+
+.input-wrapper {
+  color: white;
+}
+
+:root {
+  --ion-text-color: #ffffff;
+  --ion-background-color: #383838;
+  //--ion-backdrop-opacity: 0.95;
+  --ion-safe-area-right: 0;
+  --ion-safe-area-left: 0;
+
+  --ion-color-dark: #1b1a1f;
+
+  .toolbar-container {
+    --min-height: 100px !important;
+    min-height: 100px;
+  }
+
+  ion-toggle {
+    --track-background: #{$secondary};
+  }
+
+  ion-header  {
+    --ion-background-color: red;
+  }
+
+  ion-toolbar {
+    --ion-toolbar-background: red;
+    height: 60px;
+  }
+
+  ion-toast {
+    --background: #2e6edf;
+    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+    --color: white;
+  }
+}
+
+body {
+  h1, h2, h3, h4, h5, h6, p, span, div, ul, li, dl, dt, dd {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.ion-no-pad {
+  height: 32px;
+  width: 32px;
+  margin: 0;
+
+  --padding-top: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-bottom: 0;
+}

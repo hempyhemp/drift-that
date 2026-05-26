@@ -1,0 +1,53 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+.idea/
+dist/
+types/
+.sourcemaps
+xcuserdata/
+node_modules/
+Pods/
+*.map
+Podfile.lock
+Build/*
+build/
+Index/
+.*.sw*
+android-template.iml
+!/build/.npmkeep
+lerna-debug.log
+local.properties
+contents.xcworkspacedata
+android-template/.gradle/
+android-template/app/app.iml
+.gradle/
+.settings/
+.project
+capacitor-build.log
+
+# Carthage and Carthage-built binaries
+Carthage
+*.xcframework.zip
